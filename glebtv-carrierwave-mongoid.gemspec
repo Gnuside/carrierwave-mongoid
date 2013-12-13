@@ -3,23 +3,22 @@ $:.push File.expand_path("../lib", __FILE__)
 require "carrierwave/mongoid/version"
 
 Gem::Specification.new do |s|
-  s.name        = "carrierwave-mongoid"
+  s.name        = "glebtv-carrierwave-mongoid"
   s.version     = Carrierwave::Mongoid::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Jonas Nicklas", "Trevor Turk"]
+  s.authors     = ["GlebTv", "Jonas Nicklas", "Trevor Turk"]
   s.email       = ["jonas.nicklas@gmail.com"]
-  s.homepage    = "https://github.com/carrierwaveuploader/carrierwave-mongoid"
-  s.summary     = %q{Mongoid support for CarrierWave}
-  s.description = %q{Mongoid support for CarrierWave}
+  s.homepage    = "https://github.com/crowdtask/carrierwave-mongoid"
+  s.summary     = %q{This fork makes GridFS optional}
+  s.description = %q{This fork makes GridFS optional}
   s.license     = "MIT"
-
-  s.rubyforge_project = "carrierwave-mongoid"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_dependency "mongoid", [">= 3.0", "< 5.0"]
   s.add_dependency "carrierwave", [">= 0.8.0", "< 0.10.0"]
   s.add_dependency "mongoid", [">= 4.0.0"]
   s.add_dependency "mongoid-grid_fs", [">= 1.9"]

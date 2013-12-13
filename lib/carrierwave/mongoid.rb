@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 require 'mongoid'
-require 'mongoid-grid_fs'
 require 'carrierwave'
 require 'carrierwave/validations/active_model'
 
@@ -12,7 +11,10 @@ module CarrierWave
     # See +CarrierWave::Mount#mount_uploader+ for documentation
     #
     def mount_uploader(column, uploader=nil, options={}, &block)
-      field options[:mount_on] || column
+      field_name = options[:mount_on] || column
+      unless fields.keys.include?(field_name.to_s) || fields.values.map { |f| f.options[:as].to_s }.include?(field_name.to_s)
+        field field_name
+      end
 
       super
 
@@ -101,13 +103,15 @@ module CarrierWave
   end # Mongoid
 end # CarrierWave
 
-CarrierWave::Storage.autoload :GridFS, 'carrierwave/storage/grid_fs'
+if defined?(Mongoid::GridFs)
+  CarrierWave::Storage.autoload :GridFS, 'carrierwave/storage/grid_fs'
 
-class CarrierWave::Uploader::Base
-  add_config :grid_fs_access_url
+  class CarrierWave::Uploader::Base
+    add_config :grid_fs_access_url
 
-  configure do |config|
-    config.storage_engines[:grid_fs] = "CarrierWave::Storage::GridFS"
+    configure do |config|
+      config.storage_engines[:grid_fs] = "CarrierWave::Storage::GridFS"
+    end
   end
 end
 
